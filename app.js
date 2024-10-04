@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 mongoose.connect('mongodb://localhost:27017')
 
 // השרת מאזין בפורט 3000
-const port = 8080;
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
