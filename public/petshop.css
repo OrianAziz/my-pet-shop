@@ -188,21 +188,8 @@ body {
     color: yellow;
 }
 
-/*#hero button{
-    background-image: url("images/button.png");
-    background-color: transparent;
-    color: black;
-    border: 0;
-    padding: 14px 50px 14px 65px;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    font-size: 15px;
-    font-family: 'Assistant', sans-serif;
-    font-weight: bold;
 
-}
 
-*/
 
 #hero button{
     padding: 10px 10px;
@@ -282,4 +269,105 @@ body {
 #feature .feature-box:nth-child(5) h3{
     background-color: rgba(160, 30, 180, 0.899);
 }
+
+#banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url("images/banner.jpg");
+    width: 100%;
+    height: 80vh;
+    background-size: cover;
+    background-position: center;  
+}
+
+#banner h4{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#banner h2{
+    font-size: 30px;
+}
+
+#banner h2 span{
+    color: red;
+ }
+
+ footer {
+    direction: rtl;
+    text-align: right;
+    padding: 20px;
+    color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(241, 177, 57, 0.8), rgba(248, 245, 245, 0.4));
+    position: relative; /* שונתה ההגדרה מ-absolute ל-relative */
+    width: 100%;
+    align-items: center;
+    min-height: 150px; /* מספיק גובה להציג את כל התוכן */
+}
+
+footer .col{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+footer h4{
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+footer p{
+    font-size: 13px;
+    margin: 0 0 8px 0;
+    color: rgba(112, 117, 117, 0.665);
+
+}
+
+footer a{
+    font-size: 13px;
+    text-decoration: none;
+    color: rgba(112, 117, 117, 0.665);
+    margin-bottom: 10px;
+}
+
+
+footer i {
+    color: black;
+    padding-right: 4px;
+    cursor: pointer;
+    font-size: 20px; 
+    color: #0b0b0b;     
+}
+
+footer i:hover,
+footer a:hover{
+    color: rgb(255, 157, 0);
+
+}
+
+.copyright {
+    text-align: center; /* יישור למרכז */
+    border-top: 1px solid rgba(0, 0, 0, 0.1); /* קו עליון דק להפרדה */
+    padding-top: 10px; /* רווח מעל הטקסט */
+    margin-top: 20px; /* רווח בין התוכן לקו */
+    font-size: 12px;
+    color: rgba(112, 117, 117, 0.8); /* צבע אפור עדין לטקסט */
+}
+
+
+
+.copyright p{
+    font-size: 13px;
+    margin: 0 0 8px 0;
+    color: rgb(15, 15, 15);
+
+}
+
 
