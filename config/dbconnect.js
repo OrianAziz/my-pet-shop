@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('dotenv').config();  // טוען את משתני הסביבה מקובץ .env
+require('dotenv').config();  
 
 const dbConnect = async () => {
     try {
