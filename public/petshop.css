@@ -221,7 +221,7 @@ body {
     height: 200px; 
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* מבטיח שהתמונה והכיתוב יהיו במקומם */
+    justify-content: space-between; 
     align-items: center;
         font-family: 'MyFont', sans-serif;
 
@@ -229,7 +229,7 @@ body {
 }
 
 #feature .feature-box img{
-    width: 100px; /* גודל אחיד לכל התמונות */
+    width: 100px; 
     height: auto;
     transition: transform 0.3s ease;
     margin-bottom: 10px;
@@ -306,10 +306,10 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     background: linear-gradient(to bottom, rgba(241, 177, 57, 0.8), rgba(248, 245, 245, 0.4));
-    position: relative; /* שונתה ההגדרה מ-absolute ל-relative */
+    position: relative; 
     width: 100%;
     align-items: center;
-    min-height: 150px; /* מספיק גובה להציג את כל התוכן */
+    min-height: 150px; 
 }
 
 footer .col{
@@ -371,4 +371,17 @@ footer a:hover{
 
 }
 
+/* dogs page */
+#dog-banner{
+    background-image: url("images/dogban.png");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 30vh;
+    background-size: cover;
+    background-position: center;  
 
+}

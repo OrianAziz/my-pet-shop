@@ -7,8 +7,9 @@ const dbConnect = async () => {
         console.log('MongoDB connected successfully');
     } catch (err) {
         console.error('Error connecting to MongoDB:', err.message);
-        process.exit(1); // יציאה אם יש שגיאה
+        process.exit(1); 
     }
 };
+
 
 module.exports = dbConnect;
