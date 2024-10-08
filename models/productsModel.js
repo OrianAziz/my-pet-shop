@@ -1,37 +1,70 @@
 const mongoose = require('mongoose');
 
+// הגדרת הסכמה למוצר
 const productSchema = new mongoose.Schema({
-    שםהמוצר: {
-        type: String,
-        required: true,
-        minlength: [3, 'שם המוצר חייב להיות לפחות 3 תווים'], 
-        maxlength: [100, 'שם המוצר יכול להיות עד 100 תווים'] 
-    },
-    מחיר: {
-        type: Number,
-        required: [true, 'מחיר המוצר הוא שדה חובה'], 
-        min: [0, 'המחיר חייב להיות מספר חיובי'],         
-    },
-    תיאור: {
-        type: String,
-        required: [true, 'תיאור המוצר הוא שדה חובה'], 
-        minlength: [10, 'תיאור חייב להיות לפחות 10 תווים'], 
-        maxlength: [500, 'תיאור יכול להיות עד 500 תווים'] 
-    },
-    קטגוריה: {
-        type: String,
-        required: true,
-        enum: ['Dogs', 'Cats', 'Fish', 'Birds', 'Reptiles', 'Rodents']
-    },
-    מלאי: {
-        type: Number,
-        default: 0,
-        min: [0, 'המלאי חייב להיות מספר חיובי']
-    },
-    imageUrl: {
-        type: String 
+  שםהמוצר: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 100,
+
+  },
+  מחיר: {
+    type: Number,
+    required: true,
+    min: 0, 
+
+  },
+  תיאור: {
+    type: String,
+    required: true,
+    minlength: 10,
+    maxlength: 1000,
+
+  },
+  קטגוריה: {
+    type: String,
+    required: true,
+    enum: ['כלבים', 'חתולים', 'דגים', 'ציפורים', 'זוחלים', 'מכרסמים'] // בחירה מתוך קטגוריות מוגדרות
+  },
+  מלאי: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  imageUrl: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return /^(http|https):\/\/[^\s$.?#].[^\s]*$/.test(v); 
+      },
+      message: props => `${props.value} is not a valid URL!`
     }
+  },
+
+  צבעים: {
+    type: [String], 
+    enum: ['אדום', 'כחול', 'שחור', 'ירוק'], 
+    required: true
+  },
+
+  גדלים: [
+    {
+      גודל: { type: String, enum: ['קטן', 'בינוני', 'גדול'], required: true },
+      משקל: { type: String }, 
+      מחיר: { type: Number, required: true }, // מחיר לפי גודל
+      מלאי: { type: Number, required: true } // מלאי לכל גודל
+    }
+  ],
+
+  סטטוס: {
+    type: String,
+    enum: ['זמין', 'לא זמין'],
+    default: 'זמין'
+  }
+  
 });
 
+const Product = mongoose.model('Product', productSchema);
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = Product;

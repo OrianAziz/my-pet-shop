@@ -1,4 +1,7 @@
 const express = require('express');
+const router = express.Router();
+const productController = require('../controllers/productController');
+
 const { 
     createProduct, 
     getProductsByCategory, 
@@ -6,7 +9,6 @@ const {
     updateProduct, 
     deleteProduct 
 } = require('../controllers/productController');
-const router = express.Router();
 
 //CRUD
 router.post('/', createProduct);

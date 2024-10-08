@@ -1,42 +1,28 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 
-
-var userSchema = new mongoose.Schema({
-    שם:{
-        type:String,
-        required:true,
-        unique:true,
-        index:true,
-        minlength: 2,  
-        maxlength: 30,  
-    },
-    שםמשפחה:{
-        type:String,
-        required:true,
-        unique:true,
-        index:true,
-        minlength: 2,  
-        maxlength: 30  
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-        match: [/^\S+@\S+\.\S+$/, 'פורמט אימייל לא תקין'],  
-    },
-    טלפון:{
-        type:String,
-        required:true,
-        unique:true,
-        match: [/^\d{10}$/, 'פורמט מספר טלפון לא תקין'],
-    },
-    סיסמא:{
-        type:String,
-        required:true,
-        minlength: 8,
-        select: false,
-    },
+// הגדרת תבנית למשתמשים
+const userSchema = new mongoose.Schema({
+  _id: { type: String, required: true },  // כתובת האימייל
+  שם_פרטי: { type: String, required: true },
+  שם_משפחה: { type: String, required: true },
+  סיסמא: { type: String, required: true },
+  כתובת_משלוח: {
+    מדינה: { type: String, required: true },
+    רחוב: { type: String, required: true },
+    עיר: { type: String, required: true },
+    קומה: { type: String },
+    דירה: { type: String },
+    מיקוד: { type: String, required: true }
+  },
+  כתובת_חיוב: {
+    מדינה: { type: String, required: true },
+    רחוב: { type: String, required: true },
+    עיר: { type: String, required: true },
+    מיקוד: { type: String, required: true }
+  }
 });
 
+// יצירת המודל של המשתמשים על בסיס הסכמה
+const User = mongoose.model('User', userSchema);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;

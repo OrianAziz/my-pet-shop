@@ -4,5 +4,8 @@ const homeController = require('../controllers/homeController'); // חיבור �
 
 // ניתוב לדף הבית
 router.get('/', homeController.getHomePage);
+router.get('/dogs', homeController.dogsPage);
+
+  
 
 module.exports = router;

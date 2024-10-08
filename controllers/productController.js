@@ -1,5 +1,6 @@
 const Product = require('../models/productsModel');
 
+
 // יצירת מוצר חדש (Create)
 const createProduct = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ const getProductsByCategory = async (req, res) => {
     }
 };
 
-// קריאת מוצר לפי ID (Read by ID)
+// קריאת מוצר לפי ID 
 const getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -59,6 +60,32 @@ const deleteProduct = async (req, res) => {
         res.status(500).json({ message: 'שגיאה במחיקת המוצר', error });
     }
 };
+
+exports.addNewProduct = async (req, res) => {
+    try {
+      const newProduct = new Product({
+        שםהמוצר: 'קולר לכלב',
+        מחיר: 60,
+        תיאור: 'קולר איכותי לכלב, מתכוונן ומתאים לכל הגדלים',
+        קטגוריה: 'כלבים',
+        מלאי: 100,
+        צבעים: ['אדום', 'כחול', 'שחור'],
+        גדלים: [
+          { גודל: 'קטן', מחיר: 50, מלאי: 30 },
+          { גודל: 'בינוני', מחיר: 60, מלאי: 40 },
+          { גודל: 'גדול', מחיר: 70, מלאי: 30 }
+        ],
+        סטטוס: 'זמין'
+      });
+  
+      await newProduct.save();
+      res.status(201).send('מוצר חדש נוסף בהצלחה!');
+    } catch (error) {
+      res.status(500).send('שגיאה בהוספת המוצר.');
+    }
+  };
+
+ 
 
 module.exports = {
     createProduct,
