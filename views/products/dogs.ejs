@@ -7,83 +7,150 @@
   <link rel="stylesheet" href="/petshop.css">
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Style for the product grid */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Style for each product card */
+    .product-card {
+      width: 250px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Style for the image */
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* Style for the content inside the card */
+    .product-card .product-details {
+      padding: 15px;
+    }
+
+    /* Style for the product name */
+    .product-card h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    /* Style for the price */
+    .product-card p.price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #007BFF;
+    }
+
+    /* Style for the button link */
+    .product-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .product-card a:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <section id="header">
-        <div>
-            <ul id="navbar">
-                <li><a href="cart.html"><img src="images/bag.png" width="20px"></a></li>
-                <li><a href="contant.html">אזור אישי</a></li>
-                <li><a href="reptiles.html">זוחלים</a></li>
-                <li><a href="fish.html">דגים</a></li>
-                <li><a href="birds.html">ציפורים</a></li>
-                <li><a href="rodents.html">מכרסמים</a></li>
-                <li><a href="/dogs" class="active">כלבים</a></li>
-                <li><a href="cats.html">חתולים</a></li>
-                <li><a href="/">בית</a></li>
-            </ul>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="...חיפוש">
-            <button type="submit">🔍</button>
-        </div>
-        <a href="#"><img src="images/logo.jpg" class="logo" alt="" width="75px"></a>
-    </section>
+  <section id="header">
+    <div>
+      <ul id="navbar">
+        <li><a href="cart.html"><img src="images/bag.png" width="20px"></a></li>
+        <li><a href="contant.html">אזור אישי</a></li>
+        <li><a href="reptiles.html">זוחלים</a></li>
+        <li><a href="fish.html">דגים</a></li>
+        <li><a href="birds.html">ציפורים</a></li>
+        <li><a href="rodents.html">מכרסמים</a></li>
+        <li><a href="/dogs" class="active">כלבים</a></li>
+        <li><a href="cats.html">חתולים</a></li>
+        <li><a href="/">בית</a></li>
+      </ul>
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="...חיפוש">
+      <button type="submit">🔍</button>
+    </div>
+    <a href="#"><img src="images/petlogo2.png" class="logo" alt="" width="75px"></a>
+  </section>
 
-    <section id="dog-banner" class="section-m1">
-        <h1>מחלקת הכלבים</h1>
-    </section>
+  <section id="dog-banner" class="section-m1">
+    <h1>מחלקת הכלבים</h1>
+  </section>
 
-    <section id="dogprod" class="product-grid">
-        <% if (products && products.length > 0) { %>
-            <% products.forEach(function(product) { %>
-                <div class="product-card">
-                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
-                    <h3><%= product.name %></h3>
-                    <p>Price: ₪<%= product.price %></p>
-                    <a href="/product/<%= product._id %>">View Details</a>
-                </div>
-            <% }); %>
-        <% } else { %>
-            <p>No products found for this category.</p>
-        <% } %>
-    </section>
-
-    <footer class="section-p1">
-        <div class="col">
-            <h4>כתובתנו</h4>
-            <p>בן גוריון 30 הרצליה</p>
-            <p>המקובלים 5 הרצליה</p>
+  <section id="dogprod" class="product-grid">
+    <% if (products && products.length > 0) { %>
+      <% products.forEach(function(product) { %>
+        <div class="product-card">
+        <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+        <div class="product-details">
+            <h3><%= product.name %></h3>
+            <p>Price: ₪<%= product.price %></p>
+            <a href="/product/<%= product._id %>">View Details</a>
+          </div>
         </div>
+      <% }); %>
+    <% } else { %>
+      <p>No products found for this category.</p>
+    <% } %>
+  </section>
 
-        <div class="col">
-            <h4>שעות פעילות</h4>
-            <p>ימים א'-ה': 8:00-21:00</p>
-            <p>יום ו' ושבת: סגור</p>
-        </div>
+  <footer class="section-p1">
+    <div class="col">
+      <h4>כתובתנו</h4>
+      <p>בן גוריון 30 הרצליה</p>
+      <p>המקובלים 5 הרצליה</p>
+    </div>
 
-        <div class="col">
-            <h4>צור קשר</h4>
-            <p>טלפון: 075-222-0100</p>
-            <p>פקס: 09-9560-101</p>
-            <p>דוא"ל: petshop@email.com</p>
-        </div>
+    <div class="col">
+      <h4>שעות פעילות</h4>
+      <p>ימים א'-ה': 8:00-21:00</p>
+      <p>יום ו' ושבת: סגור</p>
+    </div>
 
-        <div class="col">
-            <h4>מידע שימושי</h4>
-            <a href="#">אודותינו</a>
-            <a href="#">תקנון</a>
-            <a href="#">מדיניות משלוחים</a>
-            <a href="#">הצהרת נגישות</a>
-            <a href="#">צור קשר</a>
-        </div>
+    <div class="col">
+      <h4>צור קשר</h4>
+      <p>טלפון: 075-222-0100</p>
+      <p>פקס: 09-9560-101</p>
+      <p>דוא"ל: petshop@email.com</p>
+    </div>
 
-        <div class="col">
-            <h4>החשבון שלי</h4>
-            <a href="#">התחבר</a>
-            <a href="#">עגלת קניות</a>
-            <a href="#">היסטוריית קניות</a>
-        </div>
-    </footer>
+    <div class="col">
+      <h4>מידע שימושי</h4>
+      <a href="#">אודותינו</a>
+      <a href="#">תקנון</a>
+      <a href="#">מדיניות משלוחים</a>
+      <a href="#">הצהרת נגישות</a>
+      <a href="#">צור קשר</a>
+    </div>
+
+    <div class="col">
+      <h4>החשבון שלי</h4>
+      <a href="#">התחבר</a>
+      <a href="#">עגלת קניות</a>
+      <a href="#">היסטוריית קניות</a>
+    </div>
+  </footer>
 </body>
 </html>

@@ -19,6 +19,7 @@ app.get('/dogs', homeController.dogsPage);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use('/', homeRoutes);
 app.use("/api/user", userRouter);
 app.use('/products', productRoutes); // Link product routes to /products
