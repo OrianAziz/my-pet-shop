@@ -10,10 +10,9 @@
 </head>
 <body>
     <section id="header">
-
         <div>
             <ul id="navbar">
-                <li><a href="cart.html"><img src="images/bag.png"  width="20px"></a></li>
+                <li><a href="cart.html"><img src="images/bag.png" width="20px"></a></li>
                 <li><a href="contant.html">אזור אישי</a></li>
                 <li><a href="reptiles.html">זוחלים</a></li>
                 <li><a href="fish.html">דגים</a></li>
@@ -29,17 +28,27 @@
             <button type="submit">🔍</button>
         </div>
         <a href="#"><img src="images/logo.jpg" class="logo" alt="" width="75px"></a>
-
     </section>
 
     <section id="dog-banner" class="section-m1">
         <h1>מחלקת הכלבים</h1>
     </section>
 
-    <section id="dogprod">
-        
-      </section>
-  
+    <section id="dogprod" class="product-grid">
+        <% if (products && products.length > 0) { %>
+            <% products.forEach(function(product) { %>
+                <div class="product-card">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+                    <h3><%= product.name %></h3>
+                    <p>Price: ₪<%= product.price %></p>
+                    <a href="/product/<%= product._id %>">View Details</a>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No products found for this category.</p>
+        <% } %>
+    </section>
+
     <footer class="section-p1">
         <div class="col">
             <h4>כתובתנו</h4>
@@ -51,7 +60,6 @@
             <h4>שעות פעילות</h4>
             <p>ימים א'-ה': 8:00-21:00</p>
             <p>יום ו' ושבת: סגור</p>
-
         </div>
 
         <div class="col">
@@ -74,28 +82,8 @@
             <h4>החשבון שלי</h4>
             <a href="#">התחבר</a>
             <a href="#">עגלת קניות</a>
-            <a href="#">מעקב אחרי משלוח</a>
-            <a href="#">עזרה</a>
+            <a href="#">היסטוריית קניות</a>
         </div>
-        
-        <div class="col">
-            <h4>עקבו אחרינו</h4>
-            <div class="icon">
-                <i class="fab fa-facebook-f"></i>
-                <i class="fab fa-twitter"></i>
-                <i class="fab fa-instagram"></i>
-            </div>
-        </div>   
-
     </footer>
-
-    <div class="copyright">
-        <p>כל הזכויות שמורות - חנות חיות הרצליה @</p>
-    </div>
-
-
-    <script src="petshop.js"></script>
 </body>
 </html>
-
-

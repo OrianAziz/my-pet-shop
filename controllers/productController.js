@@ -1,91 +1,66 @@
 const Product = require('../models/productsModel');
 
-
-// יצירת מוצר חדש (Create)
+// Create product (Create)
 const createProduct = async (req, res) => {
     try {
         const newProduct = await Product.create(req.body);
         res.status(201).json(newProduct);
     } catch (error) {
-        res.status(500).json({ message: 'שגיאה ביצירת המוצר', error });
+        res.status(500).json({ message: 'Error creating product', error });
     }
 };
 
-// קריאת רשימת מוצרים לפי קטגוריה (Read)
+// Get products by category (Read)
 const getProductsByCategory = async (req, res) => {
     try {
-        const category = req.params.category;
-        const products = await Product.find({ category });
-        res.status(200).json(products);
+        const cat = req.params.category; // Get category from the URL
+        const products = await Product.find({ category: cat }); // Fetch products from the DB using category
+        console.log('Fetched products for category:', cat, products); // Log products to confirm
+        res.render('products/dogs', { products: products }); // Pass products to the dogs.ejs view
     } catch (error) {
-        res.status(500).json({ message: 'שגיאה בקבלת המוצרים', error });
+        console.error('Error fetching products by category:', error);
+        res.status(500).json({ message: 'Error retrieving products', error });
     }
 };
 
-// קריאת מוצר לפי ID 
+// Get product by ID
 const getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
-            return res.status(404).json({ message: 'המוצר לא נמצא' });
+            return res.status(404).json({ message: 'Product not found' });
         }
         res.status(200).json(product);
     } catch (error) {
-        res.status(500).json({ message: 'שגיאה בקבלת המוצר', error });
+        res.status(500).json({ message: 'Error retrieving product', error });
     }
 };
 
-// עדכון מוצר לפי ID (Update)
+// Update product by ID (Update)
 const updateProduct = async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedProduct) {
-            return res.status(404).json({ message: 'המוצר לא נמצא' });
+            return res.status(404).json({ message: 'Product not found' });
         }
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(500).json({ message: 'שגיאה בעדכון המוצר', error });
+        res.status(500).json({ message: 'Error updating product', error });
     }
 };
 
-// מחיקת מוצר לפי ID (Delete)
+// Delete product by ID (Delete)
 const deleteProduct = async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         if (!deletedProduct) {
-            return res.status(404).json({ message: 'המוצר לא נמצא' });
+            return res.status(404).json({ message: 'Product not found' });
         }
-        res.status(200).json({ message: 'המוצר נמחק בהצלחה' });
+        res.status(200).json({ message: 'Product deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'שגיאה במחיקת המוצר', error });
+        res.status(500).json({ message: 'Error deleting product', error });
     }
 };
-
-exports.addNewProduct = async (req, res) => {
-    try {
-      const newProduct = new Product({
-        שםהמוצר: 'קולר לכלב',
-        מחיר: 60,
-        תיאור: 'קולר איכותי לכלב, מתכוונן ומתאים לכל הגדלים',
-        קטגוריה: 'כלבים',
-        מלאי: 100,
-        צבעים: ['אדום', 'כחול', 'שחור'],
-        גדלים: [
-          { גודל: 'קטן', מחיר: 50, מלאי: 30 },
-          { גודל: 'בינוני', מחיר: 60, מלאי: 40 },
-          { גודל: 'גדול', מחיר: 70, מלאי: 30 }
-        ],
-        סטטוס: 'זמין'
-      });
-  
-      await newProduct.save();
-      res.status(201).send('מוצר חדש נוסף בהצלחה!');
-    } catch (error) {
-      res.status(500).send('שגיאה בהוספת המוצר.');
-    }
-  };
-
- 
 
 module.exports = {
     createProduct,

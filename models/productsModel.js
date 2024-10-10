@@ -2,32 +2,32 @@ const mongoose = require('mongoose');
 
 // הגדרת הסכמה למוצר
 const productSchema = new mongoose.Schema({
-  שםהמוצר: {
+  name: {
     type: String,
     required: true,
     minlength: 3,
     maxlength: 100,
 
   },
-  מחיר: {
+  price: {
     type: Number,
     required: true,
     min: 0, 
 
   },
-  תיאור: {
+  description: {
     type: String,
     required: true,
     minlength: 10,
     maxlength: 1000,
 
   },
-  קטגוריה: {
+  category: {
     type: String,
     required: true,
-    enum: ['כלבים', 'חתולים', 'דגים', 'ציפורים', 'זוחלים', 'מכרסמים'] // בחירה מתוך קטגוריות מוגדרות
+    enum: ['dogs', 'cats', 'fish', 'birds', 'reptiles', 'rodents'] // בחירה מתוך קטגוריות מוגדרות
   },
-  מלאי: {
+  inventory: {
     type: Number,
     default: 0,
     min: 0
@@ -42,22 +42,22 @@ const productSchema = new mongoose.Schema({
     }
   },
 
-  צבעים: {
+  colors: {
     type: [String], 
     enum: ['אדום', 'כחול', 'שחור', 'ירוק'], 
     required: true
   },
 
-  גדלים: [
+  sizes: [
     {
-      גודל: { type: String, enum: ['קטן', 'בינוני', 'גדול'], required: true },
-      משקל: { type: String }, 
-      מחיר: { type: Number, required: true }, // מחיר לפי גודל
-      מלאי: { type: Number, required: true } // מלאי לכל גודל
+      size: { type: String, enum: ['קטן', 'בינוני', 'גדול'], required: true },
+      weight: { type: String }, 
+      price: { type: Number, required: true }, // מחיר לפי גודל
+      inventory: { type: Number, required: true } // מלאי לכל גודל
     }
   ],
 
-  סטטוס: {
+  status: {
     type: String,
     enum: ['זמין', 'לא זמין'],
     default: 'זמין'
