@@ -27,9 +27,9 @@ const getUserById = async (req, res) => {
 //יצירת משתמש
 const createUser = async (req, res) => {
     try {
-        const { email, שם, שםמשפחה, טלפון, סיסמא } = req.body;
+        const { email, first_name, family_name, phone_number, password } = req.body;
 
-        if (!email || !שם || !שםמשפחה || !טלפון || !סיסמא) {
+        if (!email || !first_name || !family_name || !phone_number || !password) {
             return res.status(400).json({ message: 'חסר מידע הכרחי' });
         }
 

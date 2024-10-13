@@ -3,22 +3,22 @@ const mongoose = require('mongoose');
 // הגדרת תבנית למשתמשים
 const userSchema = new mongoose.Schema({
   _id: { type: String, required: true },  // כתובת האימייל
-  שם_פרטי: { type: String, required: true },
-  שם_משפחה: { type: String, required: true },
-  סיסמא: { type: String, required: true },
-  כתובת_משלוח: {
-    מדינה: { type: String, required: true },
-    רחוב: { type: String, required: true },
-    עיר: { type: String, required: true },
-    קומה: { type: String },
-    דירה: { type: String },
-    מיקוד: { type: String, required: true }
+  first_name: { type: String, required: true },
+  family_name: { type: String, required: true },
+  password: { type: String, required: true },
+  address: {
+    country: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    floor: { type: String },
+    appartement: { type: String },
+    zip: { type: String, required: true }
   },
-  כתובת_חיוב: {
-    מדינה: { type: String, required: true },
-    רחוב: { type: String, required: true },
-    עיר: { type: String, required: true },
-    מיקוד: { type: String, required: true }
+  billing_address: {
+    country: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    zip: { type: String, required: true }
   }
 });
 
