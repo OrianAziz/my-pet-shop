@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // הגדרת תבנית למשתמשים
 const userSchema = new mongoose.Schema({
-  _id: { type: String, required: true },  // כתובת האימייל
+  email: { type: String, required: true },  // כתובת האימייל
   first_name: { type: String, required: true },
   family_name: { type: String, required: true },
   password: { type: String, required: true },

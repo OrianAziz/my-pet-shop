@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <style>
+    /* Fullscreen background */
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/path-to-your-background-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Container for the signup form */
+    .signup-container {
+      background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    /* Form styles */
+    .signup-container h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .signup-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .signup-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .signup-container button:hover {
+      background-color: #45a049;
+    }
+
+    /* Sign in section */
+    .signin-section {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .signin-section a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .signin-section a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+
+    <!-- Sign up form -->
+    <form action="/signup" method="POST">
+      <input type="text" name="first_name" placeholder="First Name" required>
+      <input type="text" name="family_name" placeholder="Family Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Sign in section -->
+    <div class="signin-section">
+      <p>Already have an account? <a href="/login">Log in here</a></p>
+    </div>
+  </div>
+
+</body>
+</html>
