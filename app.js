@@ -9,7 +9,8 @@ const productRoutes = require('./routes/productRoutes');
 const homeRoutes = require('./routes/homeRouth');
 const homeController = require('./controllers/homeController');
 const authRoutes = require('./routes/authRoutes'); // Import the new auth routes
-  
+const cartRoutes = require('./routes/cartRoutes'); // Import the cart routes
+
 const app = express();
 const port = process.env.PORT || 3003; // Fixed to uppercase PORT
 
@@ -36,6 +37,7 @@ app.use('/', homeRoutes);
 app.use('/api/user', userRouter);
 app.use('/products', productRoutes);
 app.use('/auth', authRoutes); // Use the new auth routes for login/signup
+app.use('/cart', cartRoutes); // Use the cart routes
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="/petshop.css">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cart-container {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      margin-top: 2em;
+    }
+
+    .cart-item h2 {
+      margin: 0;
+      font-size: 20px;
+      width: 150px; /* Set a fixed width for the item name */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; /* Prevent the text from wrapping */
+    }
+
+    .cart-item p {
+      margin: 5px 0;
+      color: #666;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-control button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .quantity-control button:hover {
+      background-color: #4cae4c;
+    }
+
+    .quantity-control span {
+      margin: 0 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .remove {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .remove:hover {
+      background-color: #c9302c;
+    }
+
+    #total-price {
+      font-size: 24px;
+      text-align: right;
+      color: #333;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #order-button {
+      display: block;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #order-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pet Shop Navbar -->
+  <section id="header">
+    <div>
+        <ul id="navbar">
+            <li><a href="/cart"><img src="/images/bag.png" width="20px"></a></li>
+            <li><a href="contant.html">אזור אישי</a></li>
+            <li><a href="reptiles.html">זוחלים</a></li>
+            <li><a href="fish.html">דגים</a></li>
+            <li><a href="birds.html">ציפורים</a></li>
+            <li><a href="rodents.html">מכרסמים</a></li>
+            <li><a href="/dogs" class="active">כלבים</a></li>
+            <li><a href="cats.html">חתולים</a></li>
+            <li><a href="/">בית</a></li>
+        </ul>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="...חיפוש">
+            <button type="submit">🔍</button>
+          </div>
+          <a href="#"><img src="images/petlogo2.png" class="logo" alt="" width="75px"></a>
+  </section>
+
+  <div class="cart-container">
+    <h1>Your Shopping Cart</h1>
+    <div id="cart-items"></div>
+    <div id="total-price">Total: $0.00</div>
+    <button id="order-button">Place Order</button>
+  </div>
+
+  <script>
+    // Sample cart data structure
+    let cart = [
+      // Example cart items (this can be dynamic in your case)
+      { id: 1, name: 'Dog Food', price: 19.99, quantity: 2 },
+      { id: 2, name: 'Cat Toy with Long Name Example', price: 5.99, quantity: 3 }
+    ];
+
+    // Function to update the cart page display
+    function renderCart() {
+      const cartItemsContainer = document.getElementById("cart-items");
+      cartItemsContainer.innerHTML = ""; // Clear existing items
+
+      let totalPrice = 0;
+
+      for (const item of cart) {
+        // Create HTML elements for each item
+        const cartItem = document.createElement("div");
+        cartItem.classList.add("cart-item");
+        cartItem.innerHTML = `
+          <h2>${item.name}</h2>
+          <p>Price: $${item.price.toFixed(2)}</p>
+          <div class="quantity-control">
+            <button class="decrease" data-id="${item.id}">-</button>
+            <span class="quantity">${item.quantity}</span>
+            <button class="increase" data-id="${item.id}">+</button>
+          </div>
+          <button class="remove" data-id="${item.id}"><i class="fas fa-trash"></i> Remove</button>
+        `;
+
+        cartItemsContainer.appendChild(cartItem);
+        totalPrice += item.price * item.quantity;
+
+        // Event listeners for quantity buttons
+        const decreaseButton = cartItem.querySelector(".decrease");
+        decreaseButton.addEventListener("click", () => {
+          updateQuantity(item.id, -1);
+        });
+        const increaseButton = cartItem.querySelector(".increase");
+        increaseButton.addEventListener("click", () => {
+          updateQuantity(item.id, 1);
+        });
+
+        // Event listener for remove button
+        const removeButton = cartItem.querySelector(".remove");
+        removeButton.addEventListener("click", () => {
+          removeItem(item.id);
+        });
+      }
+
+      // Update total price display
+      document.getElementById("total-price").textContent = `Total: $${totalPrice.toFixed(2)}`;
+    }
+
+    // Function to update item quantity
+    function updateQuantity(itemId, change) {
+      const itemIndex = cart.findIndex((item) => item.id === itemId);
+      if (itemIndex !== -1) {
+        cart[itemIndex].quantity += change;
+        if (cart[itemIndex].quantity <= 0) {
+          removeItem(itemId);
+        } else {
+          renderCart(); // Update cart display
+        }
+      }
+    }
+
+    // Function to remove item from cart
+    function removeItem(itemId) {
+      cart = cart.filter((item) => item.id !== itemId);
+      renderCart(); // Update cart display
+    }
+
+    // Event listener for order button
+    const orderButton = document.getElementById("order-button");
+    orderButton.addEventListener("click", () => {
+      // Handle order logic here (e.g., send cart data to server)
+      console.log("Order placed:", cart);
+    });
+
+    // Initial rendering of cart
+    renderCart();
+  </script>
+</body>
+</html>
