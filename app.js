@@ -10,6 +10,10 @@ const homeRoutes = require('./routes/homeRouth');
 const homeController = require('./controllers/homeController');
 const authRoutes = require('./routes/authRoutes'); // Import the new auth routes
 const cartRoutes = require('./routes/cartRoutes'); // Import the cart routes
+const cartController = require('./controllers/cartController'); // Import the cart controller
+
+// Add this line to import the mock authentication
+const mockAuth = require('./middleware/mockAuth');
 
 const app = express();
 const port = process.env.PORT || 3003; // Fixed to uppercase PORT
@@ -37,7 +41,26 @@ app.use('/', homeRoutes);
 app.use('/api/user', userRouter);
 app.use('/products', productRoutes);
 app.use('/auth', authRoutes); // Use the new auth routes for login/signup
+
+// Comment out the real authentication
+/*
 app.use('/cart', cartRoutes); // Use the cart routes
+app.get('/get-cart-items', (req, res) => {
+  const items = cartController.getCartItems(req.session.cart); // Pass session cart to controller
+  res.json(items); 
+});
+app.post('/cart/add', cartController.addItemToCart); 
+app.post('/cart/remove', cartController.removeItemFromCart);
+*/
+
+// Update these routes to use mockAuth
+app.use('/cart', mockAuth, cartRoutes);
+app.get('/get-cart-items', mockAuth, (req, res, next) => {
+  console.log('Middleware check - req.user:', req.user);
+  next();
+}, cartController.getCartItems);
+app.post('/cart/add', mockAuth, cartController.addItemToCart);
+app.post('/cart/remove', mockAuth, cartController.removeItemFromCart);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

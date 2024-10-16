@@ -146,93 +146,77 @@
 
   <div class="cart-container">
     <h1>Your Shopping Cart</h1>
-    <div id="cart-items"></div>
-    <div id="total-price">Total: $0.00</div>
+    <div id="cart-items">
+      </div>
+    <div id="total-price">Total: $0.00</div> 
     <button id="order-button">Place Order</button>
   </div>
-
   <script>
-    // Sample cart data structure
-    let cart = [
-      // Example cart items (this can be dynamic in your case)
-      { id: 1, name: 'Dog Food', price: 19.99, quantity: 2 },
-      { id: 2, name: 'Cat Toy with Long Name Example', price: 5.99, quantity: 3 }
-    ];
-
-    // Function to update the cart page display
-    function renderCart() {
+    // Your JavaScript logic here
+    function renderCart(items) {
       const cartItemsContainer = document.getElementById("cart-items");
       cartItemsContainer.innerHTML = ""; // Clear existing items
-
       let totalPrice = 0;
-
-      for (const item of cart) {
-        // Create HTML elements for each item
-        const cartItem = document.createElement("div");
-        cartItem.classList.add("cart-item");
-        cartItem.innerHTML = `
-          <h2>${item.name}</h2>
-          <p>Price: $${item.price.toFixed(2)}</p>
-          <div class="quantity-control">
-            <button class="decrease" data-id="${item.id}">-</button>
-            <span class="quantity">${item.quantity}</span>
-            <button class="increase" data-id="${item.id}">+</button>
-          </div>
-          <button class="remove" data-id="${item.id}"><i class="fas fa-trash"></i> Remove</button>
-        `;
-
+      for (const item of items) {
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        const itemName = document.createElement('h2');
+        itemName.textContent = item.name;
+        cartItem.appendChild(itemName);
+        const itemPrice = document.createElement('p');
+        itemPrice.textContent = `Price: $${item.price.toFixed(2)}`;
+        cartItem.appendChild(itemPrice);
+        const quantityControl = document.createElement('div');
+        quantityControl.classList.add('quantity-control');
+        const decreaseBtn = document.createElement('button');
+        decreaseBtn.classList.add('decrease');
+        decreaseBtn.dataset.id = item.productId; 
+        decreaseBtn.textContent = '-';
+        quantityControl.appendChild(decreaseBtn);
+        const quantitySpan = document.createElement('span');
+        quantitySpan.classList.add('quantity');
+        quantitySpan.textContent = item.quantity;
+        quantityControl.appendChild(quantitySpan);
+        const increaseBtn = document.createElement('button');
+        increaseBtn.classList.add('increase');
+        increaseBtn.dataset.id = item.productId; 
+        increaseBtn.textContent = '+';
+        quantityControl.appendChild(increaseBtn);
+        cartItem.appendChild(quantityControl);
+        const removeBtn = document.createElement('button');
+        removeBtn.classList.add('remove');
+        removeBtn.dataset.id = item.productId;
+        removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+        cartItem.appendChild(removeBtn);
         cartItemsContainer.appendChild(cartItem);
-        totalPrice += item.price * item.quantity;
-
-        // Event listeners for quantity buttons
-        const decreaseButton = cartItem.querySelector(".decrease");
-        decreaseButton.addEventListener("click", () => {
-          updateQuantity(item.id, -1);
-        });
-        const increaseButton = cartItem.querySelector(".increase");
-        increaseButton.addEventListener("click", () => {
-          updateQuantity(item.id, 1);
-        });
-
-        // Event listener for remove button
-        const removeButton = cartItem.querySelector(".remove");
-        removeButton.addEventListener("click", () => {
-          removeItem(item.id);
-        });
+        totalPrice += parseFloat(item.price) * item.quantity;
       }
-
-      // Update total price display
       document.getElementById("total-price").textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
-
-    // Function to update item quantity
     function updateQuantity(itemId, change) {
-      const itemIndex = cart.findIndex((item) => item.id === itemId);
-      if (itemIndex !== -1) {
-        cart[itemIndex].quantity += change;
-        if (cart[itemIndex].quantity <= 0) {
-          removeItem(itemId);
-        } else {
-          renderCart(); // Update cart display
-        }
-      }
+      // Logic to update quantity
+      // You'll need to make an API call to update quantity
+      renderCart(); // Update cart display after API call
     }
-
-    // Function to remove item from cart
     function removeItem(itemId) {
-      cart = cart.filter((item) => item.id !== itemId);
-      renderCart(); // Update cart display
+      // Logic to remove item
+      // You'll need to make an API call to remove item
+      renderCart(); // Update cart display after API call
     }
-
-    // Event listener for order button
-    const orderButton = document.getElementById("order-button");
-    orderButton.addEventListener("click", () => {
-      // Handle order logic here (e.g., send cart data to server)
-      console.log("Order placed:", cart);
+    document.getElementById("order-button").addEventListener("click", () => {
+      console.log("Order placed");
     });
-
-    // Initial rendering of cart
-    renderCart();
+    fetch('/get-cart-items') 
+        .then(response => response.json())
+        .then(data => {
+          renderCart(data);
+        });
+    // Additional logic for adding items to the cart (you'll need to create a button/link for this)
+    // ...
+    // Logic for updating quantities using AJAX/fetch 
+    // ...
+    // Logic for removing items using AJAX/fetch 
+    // ...
   </script>
 </body>
 </html>
