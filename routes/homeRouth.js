@@ -6,6 +6,7 @@ const productController = require('../controllers/productController');
 // ניתוב לדף הבית
 router.get('/', homeController.getHomePage);
 router.get('/dogs', homeController.dogsPage);
+router.get('/branches', homeController.branchesPage); // Add this line
 
   
 

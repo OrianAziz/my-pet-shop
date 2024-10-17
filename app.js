@@ -63,6 +63,8 @@ app.post('/cart/remove', mockAuth, cartController.removeItemFromCart);
 // Use mockAuth for all order routes
 app.use('/order', mockAuth, orderRoutes);
 
+app.locals.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

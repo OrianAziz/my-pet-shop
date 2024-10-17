@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>עמוד הבית</title>
-  <link rel="stylesheet" href="/petshop.css">
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>סניפים - חנות חיות הרצליה</title>
+    <link rel="stylesheet" href="/petshop.css">
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <section id="header">
@@ -32,47 +36,45 @@
 
 
     </section>
+    <h1>הסניפים שלנו</h1>
+    <div id="map"></div>
 
-    <section id="hero">
-        <h4>!מבצעי חודש אוקטובר 2024</h4>
-        <h2>מבצעים משתלמים ביותר</h2>
-        <h1>על מוצרים נבחרים</h1>
-        <p>!עד 70% הנחה</p>
-        <button>לרכישה מהירה</button>
+    <script type="text/javascript">
+        var branchesData = JSON.parse('<%- JSON.stringify(branches) %>');
+    </script>
 
-    </section>
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: { lat: 31.9522, lng: 34.7793 } // Centered on Israel
+            });
 
-    <section id="feature" class="section-p1">
-        <div class="feature-box">
-            <img src="images/features/dog.png" alt="">
-            <h3>מחלקת הכלבים</h3>
-        </div>
-        <div class="feature-box">
-            <img src="images/features/cat.png" alt="">
-            <h3>מחלקת החתולים</h3>
-        </div>
-        <div class="feature-box">
-            <img src="images/features/fish.png" alt="">
-            <h3>מחלקת הדגים</h3>
-        </div>
-        <div class="feature-box">
-            <img src="images/features/bunny.png" alt="">
-            <h3>מחלקת המכרסמים</h3>
-        </div>
-        <div class="feature-box">
-            <img src="images/features/birds.png" alt="">
-            <h3>מחלקת ציפורים</h3>
-        </div>
+            branchesData.forEach(branch => {
+                const marker = new google.maps.Marker({
+                    position: { lat: branch.lat, lng: branch.lng },
+                    map: map,
+                    title: branch.name
+                });
 
-    </section>
+                const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${branch.lat},${branch.lng}`;
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `
+                        <div>
+                            <strong>${branch.name}</strong><br>
+                            ${branch.address}<br>
+                            <a href="${googleMapsUrl}" target="_blank" style="display: inline-block; margin-top: 10px; padding: 5px 10px; background-color: #4285F4; color: white; text-decoration: none; border-radius: 3px;">הצג בגוגל מפות</a>
+                        </div>
+                    `
+                });
 
-    <section id="banner" class="section-m1">
-        <h4>!שימו לב שירות חדש בחנות</h4>
-        <h1>שירותי מספרה לכלבים</h1>
-        <h2>בקנייה מעל 200 ש"ח <span>30%</span> הנחה לתספורת</h2>
-        <h4>למידע נוסף חייגו 09-9560-101</h4>
-    </section>
-
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&callback=initMap"></script>
     <footer class="section-p1">
         <div class="col">
             <h4>כתובתנו</h4>
@@ -129,8 +131,5 @@
     </div>
 
 
-    <script src="petshop.js"></script>
 </body>
 </html>
-
-

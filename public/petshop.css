@@ -385,3 +385,21 @@ footer a:hover{
     background-position: center;  
 
 }
+
+/* Add these styles for the branches page */
+#map {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+.branches-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.branches-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}

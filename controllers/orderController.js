@@ -1,7 +1,7 @@
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel');
 
-exports.createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: 'User not authenticated' });
