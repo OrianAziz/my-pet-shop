@@ -13,10 +13,28 @@ const createProduct = async (req, res) => {
 // Get products by category (Read)
 const getProductsByCategory = async (req, res) => {
     try {
-        const cat = req.params.category; // Get category from the URL
-        const products = await Product.find({ category: cat }); // Fetch products from the DB using category
-        console.log('Fetched products for category:', cat, products); // Log products to confirm
-        res.render('products/dogs', { products: products }); // Pass products to the dogs.ejs view
+        const category = req.params.category;
+        const products = await Product.find({ category: category });
+        
+        const categoryData = {
+            cats: { title: 'חתולים', banner: 'cat-banner.jpg' },
+            dogs: { title: 'כלבים', banner: 'dog-banner.jpg' },
+            rodents: { title: 'מכרסמים', banner: 'rodent-banner.jpg' },
+            birds: { title: 'ציפורים', banner: 'bird-banner.jpg' },
+            fish: { title: 'דגים', banner: 'fish-banner.jpg' }
+        };
+
+        if (categoryData[category]) {
+            res.render('products/dogs', { 
+                title: categoryData[category].title, 
+                banner: categoryData[category].banner,
+                category: category,
+                currentPage: category,
+                products: products
+            });
+        } else {
+            res.status(404).send('Category not found');
+        }
     } catch (error) {
         console.error('Error fetching products by category:', error);
         res.status(500).json({ message: 'Error retrieving products', error });
