@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the schema for cart items
 const cartItemSchema = new Schema({
   product: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Product',
     required: true
   },
@@ -16,17 +15,13 @@ const cartItemSchema = new Schema({
   }
 });
 
-// Define the main cart schema
 const cartSchema = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  items: {
-    type: [cartItemSchema],
-    default: []
-  },
+  items: [cartItemSchema],
   totalPrice: {
     type: Number,
     required: true,

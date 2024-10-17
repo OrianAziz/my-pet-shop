@@ -107,7 +107,7 @@
         <div class="product-details">
             <h3><%= product.name %></h3>
             <p>Price: ₪<%= product.price %></p>
-            <a href="/product/<%= product._id %>">Add to cart</a>
+            <button class="add-to-cart" data-product-id="<%= product._id %>">Add to cart</button>
           </div>
         </div>
       <% }); %>
@@ -152,5 +152,46 @@
       <a href="#">היסטוריית קניות</a>
     </div>
   </footer>
+
+  <script>
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const productId = this.getAttribute('data-product-id');
+      
+      console.log('Adding product to cart:', productId);
+      
+      fetch('/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId })
+      })
+      .then(response => {
+        console.log('Response status:', response.status);
+        return response.text().then(text => {
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            throw new Error(`Invalid JSON: ${text}`);
+          }
+        });
+      })
+      .then(data => {
+        console.log('Server response:', data);
+        if (data.message === 'Item added to cart') {
+          alert('Item added to cart successfully!');
+        } else {
+          alert('Error adding item to cart: ' + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Error adding item to cart: ' + error.message);
+      });
+    });
+  });
+  </script>
 </body>
 </html>

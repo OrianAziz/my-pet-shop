@@ -55,10 +55,7 @@ app.post('/cart/remove', cartController.removeItemFromCart);
 
 // Update these routes to use mockAuth
 app.use('/cart', mockAuth, cartRoutes);
-app.get('/get-cart-items', mockAuth, (req, res, next) => {
-  console.log('Middleware check - req.user:', req.user);
-  next();
-}, cartController.getCartItems);
+app.get('/get-cart-items', mockAuth, cartController.getCartItems);
 app.post('/cart/add', mockAuth, cartController.addItemToCart);
 app.post('/cart/remove', mockAuth, cartController.removeItemFromCart);
 
