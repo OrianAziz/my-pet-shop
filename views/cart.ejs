@@ -167,22 +167,24 @@
     <div>
         <ul id="navbar">
             <li><a href="/cart"><img src="/images/bag.png" width="20px"></a></li>
-            <li><a href="contant.html">אזור אישי</a></li>
-            <li><a href="reptiles.html">זוחלים</a></li>
-            <li><a href="fish.html">דגים</a></li>
-            <li><a href="birds.html">ציפורים</a></li>
-            <li><a href="rodents.html">מכרסמים</a></li>
-            <li><a href="/dogs" class="active">כלבים</a></li>
-            <li><a href="cats.html">חתולים</a></li>
-            <li><a href="/">בית</a></li>
+            <li><a href="/user" class="<%= currentPage === 'user' ? 'active' : '' %>">אזור אישי</a></li>
+            <li><a href="/branches" class="<%= currentPage === 'branches' ? 'active' : '' %>">סניפים</a></li>
+            <li><a href="/products/fish" class="<%= currentPage === 'fish' ? 'active' : '' %>">דגים</a></li>
+            <li><a href="/products/birds" class="<%= currentPage === 'birds' ? 'active' : '' %>">ציפורים</a></li>
+            <li><a href="/products/rodents" class="<%= currentPage === 'rodents' ? 'active' : '' %>">מכרסמים</a></li>
+            <li><a href="/products/dogs" class="<%= currentPage === 'dogs' ? 'active' : '' %>">כלבים</a></li>
+            <li><a href="/products/cats" class="<%= currentPage === 'cats' ? 'active' : '' %>">חתולים</a></li>
+            <li><a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">בית</a></li>
         </ul>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="...חיפוש">
-            <button type="submit">🔍</button>
-          </div>
-          <a href="#"><img src="images/petlogo2.png" class="logo" alt="" width="75px"></a>
-  </section>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="...חיפוש">
+        <button type="submit">🔍</button>
+    </div>
+
+    <a href="#"><img src="/images/petlogo2.png" class="logo" alt="" width="75px"></a>
+</section>
 
   <div class="cart-container">
     <h1>Your Shopping Cart</h1>
@@ -202,23 +204,6 @@
   </div>
 
   <script>
-    let cartItems = [];
-
-    async function fetchCartItems() {
-      try {
-        const response = await fetch('/cart/get-cart-items');
-        if (!response.ok) {
-          throw new Error('Failed to fetch cart items');
-        }
-        cartItems = await response.json();
-        renderCart(cartItems);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-      }
-    }
-
-    fetchCartItems();
-
     // Your JavaScript logic here
     function renderCart(items) {
       const cartItemsContainer = document.getElementById("cart-items");
@@ -309,6 +294,11 @@
     document.getElementById("cancel-order").addEventListener("click", () => {
       document.getElementById("order-modal").style.display = "none";
     });
+    fetch('/get-cart-items') 
+        .then(response => response.json())
+        .then(data => {
+          renderCart(data);
+        });
     // Additional logic for adding items to the cart (you'll need to create a button/link for this)
     // ...
     // Logic for updating quantities using AJAX/fetch 
