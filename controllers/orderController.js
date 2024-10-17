@@ -40,8 +40,34 @@ const createOrder = async (req, res) => {
   }
 };
 
+const cancelOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const userId = req.user._id;
+
+    const order = await Order.findOne({ _id: orderId, userId: userId });
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    if (order.status !== 'Pending') {
+      return res.status(400).json({ message: 'Only pending orders can be cancelled' });
+    }
+
+    await Order.findByIdAndDelete(orderId);
+
+    res.status(200).json({ message: 'Order cancelled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error cancelling order', error: error.message });
+  }
+};
+
 module.exports = {
-  createOrder
+  createOrder,
+  cancelOrder
 };
 
 console.log('Exports from orderController:', module.exports); // Updated debugging line
+
+

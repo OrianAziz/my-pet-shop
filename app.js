@@ -12,6 +12,7 @@ const cartController = require('./controllers/cartController'); // Import the ca
 const orderRoutes = require('./routes/orderRoutes');
 const mockAuth = require('./middleware/mockAuth');
 const productRoutes = require('./routes/productRoutes');
+const userController = require('./controllers/userController');
 
 const app = express();
 const port = process.env.PORT || 3003; // Fixed to uppercase PORT
@@ -50,11 +51,7 @@ app.get('/branches', (req, res) => {
     res.render('branches', { currentPage: 'branches', branches: branches });
 });
 
-app.get('/user', mockAuth, (req, res) => {
-    // Fetch user orders from database
-    const userOrders = []; // Replace with actual database query
-    res.render('user', { orders: userOrders, currentPage: 'user' });
-});
+app.get('/user', mockAuth, userController.getUserArea);
 
 app.use('/auth', authRoutes);
 app.use('/cart', mockAuth, cartRoutes);
@@ -64,6 +61,7 @@ app.post('/cart/add', mockAuth, cartController.addItemToCart);
 app.post('/cart/remove', mockAuth, cartController.removeItemFromCart);
 
 app.use('/order', mockAuth, orderRoutes);
+app.use('/orders', mockAuth, orderRoutes);
 
 app.post('/delete-order/:orderId', mockAuth, (req, res) => {
     const orderId = req.params.orderId;

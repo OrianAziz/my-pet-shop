@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אזור אישי - חנות חיות הרצליה</title>
+    <link rel="stylesheet" href="/petshop.css">
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img src="/images/petlogo2.png" class="logo" alt="" width="75px"></a>
+    
+        <div class="search-bar">
+            <button type="submit">🔍</button>
+            <input type="text" placeholder="...חיפוש">
+        </div>
+    
+        <div>
+            <ul id="navbar">
+                <li><a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">בית</a></li>
+                <li><a href="/products/cats" class="<%= currentPage === 'cats' ? 'active' : '' %>">חתולים</a></li>
+                <li><a href="/products/dogs" class="<%= currentPage === 'dogs' ? 'active' : '' %>">כלבים</a></li>
+                <li><a href="/products/rodents" class="<%= currentPage === 'rodents' ? 'active' : '' %>">מכרסמים</a></li>
+                <li><a href="/products/birds" class="<%= currentPage === 'birds' ? 'active' : '' %>">ציפורים</a></li>
+                <li><a href="/products/fish" class="<%= currentPage === 'fish' ? 'active' : '' %>">דגים</a></li>
+                <li><a href="/branches" class="<%= currentPage === 'branches' ? 'active' : '' %>">סניפים</a></li>
+                <li><a href="/user" class="<%= currentPage === 'user' ? 'active' : '' %>">אזור אישי</a></li>
+                <li><a href="/cart"><img src="/images/bag.png" width="20px"></a></li>
+            </ul>
+        </div>
+    </section>
+    <section id="user-area" class="section-p1">
+        <h1>ברוך הבא, <%= user.name %></h1>
+        <h2>ההזמנות שלך</h2>
+        
+        <% if (orders.length > 0) { %>
+            <div class="orders-list">
+                <% orders.forEach(order => { %>
+                    <div class="order-card">
+                        <h3>הזמנה מספר: <%= order.id %></h3>
+                        <p>תאריך: <%= order.date %></p>
+                        <p>סטטוס: <%= order.status %></p>
+                        <p>סכום כולל: ₪<%= order.total.toFixed(2) %></p>
+                        <button onclick="toggleOrderDetails('<%= order.id %>')">הצג פרטים</button>
+                        <% if (order.status === 'Pending') { %>
+                            <button onclick="cancelOrder('<%= order.id %>')">בטל הזמנה</button>
+                        <% } %>
+                        <div id="order-<%= order.id %>-details" style="display: none;">
+                            <h4>פריטים:</h4>
+                            <ul>
+                                <% order.items.forEach(item => { %>
+                                    <li><%= item.name %> - כמות: <%= item.quantity %>, מחיר: ₪<%= item.price.toFixed(2) %></li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>אין הזמנות קודמות.</p>
+        <% } %>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <h4>כתובתנו</h4>
+            <p>קריניצי 12 רמת גן</p>
+            <p>בן גוריון 5 הרצליה</p>
+            <p>בלפור 18 אשקלון</p>
+            <p>ארלוזרוב 72 תל אביב</p>
+        </div>
+    
+        <div class="col">
+            <h4>שעות פעילות</h4>
+            <p>ימים א'-ה': 8:00-21:00</p>
+            <p>יום ו' ושבת: סגור</p>
+    
+        </div>
+    
+        <div class="col">
+            <h4>צור קשר</h4>
+            <p>טלפון: 075-222-0100</p>
+            <p>פקס: 09-9560-101</p>
+            <p>דוא"ל: petshop@email.com</p>
+        </div>
+    
+        <div class="col">
+            <h4>מידע שימושי</h4>
+            <a href="#">אודותינו</a>
+            <a href="#">תקנון</a>
+            <a href="#">מדיניות משלוחים</a>
+            <a href="#">הצהרת נגישות</a>
+            <a href="#">צור קשר</a>
+        </div>
+    
+        <div class="col">
+            <h4>החשבון שלי</h4>
+            <a href="#">התחבר</a>
+            <a href="#">עגלת קניות</a>
+            <a href="#">מעקב אחרי משלוח</a>
+            <a href="#">עזרה</a>
+        </div>
+        
+        <div class="col">
+            <h4>עקבו אחרינו</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+            </div>
+        </div>   
+    
+    </footer>
+    
+    <div class="copyright">
+        <p>כל הזכויות שמורות - חנות חיות הרצליה @</p>
+    </div>
+    <script>
+        function toggleOrderDetails(orderId) {
+            var detailsDiv = document.getElementById('order-' + orderId + '-details');
+            if (detailsDiv.style.display === 'none') {
+                detailsDiv.style.display = 'block';
+            } else {
+                detailsDiv.style.display = 'none';
+            }
+        }
+
+        function cancelOrder(orderId) {
+            if (confirm('האם אתה בטוח שברצונך לבטל הזמנה זו?')) {
+                fetch(`/orders/${orderId}`, { 
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('ההזמנה בוטלה בהצלחה');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('שגיאה בביטול ההזמנה');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

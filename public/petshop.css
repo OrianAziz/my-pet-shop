@@ -358,7 +358,7 @@ footer a:hover{
     text-align: center; /* יישור למרכז */
     border-top: 1px solid rgba(0, 0, 0, 0.1); /* קו עליון דק להפרדה */
     padding-top: 10px; /* רווח מעל הטקסט */
-    margin-top: 20px; /* רווח בין התוכן לק�� */
+    margin-top: 20px; /* רווח בין התוכן לק */
     font-size: 12px;
     color: rgba(112, 117, 117, 0.8); /* צבע אפור עדין לטקסט */
 }
@@ -420,4 +420,44 @@ footer a:hover{
     color: #fff; /* Adjust color as needed */
     font-size: 3em;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Optional: adds shadow to make text readable on any background */
+}
+
+#user-area {
+    padding: 40px 80px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-card h3 {
+    margin-top: 0;
+}
+
+.order-card button {
+    background-color: #088178;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.order-card button:last-of-type {
+    background-color: #d9534f;
+}
+
+.order-card button:hover {
+    opacity: 0.8;
 }
