@@ -67,6 +67,7 @@ p {
 }
 
 .section-m1 {
+    padding: 40px 80px;
     margin: 40px 0;
 }
 
@@ -357,7 +358,7 @@ footer a:hover{
     text-align: center; /* יישור למרכז */
     border-top: 1px solid rgba(0, 0, 0, 0.1); /* קו עליון דק להפרדה */
     padding-top: 10px; /* רווח מעל הטקסט */
-    margin-top: 20px; /* רווח בין התוכן לקו */
+    margin-top: 20px; /* רווח בין התוכן לק�� */
     font-size: 12px;
     color: rgba(112, 117, 117, 0.8); /* צבע אפור עדין לטקסט */
 }
@@ -402,4 +403,21 @@ footer a:hover{
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
+}
+
+[id$="-banner"] {
+    background-size: cover;
+    background-position: center;
+    height: 40vh; /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+}
+
+[id$="-banner"] h1 {
+    color: #fff; /* Adjust color as needed */
+    font-size: 3em;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Optional: adds shadow to make text readable on any background */
 }

@@ -1,4 +1,5 @@
 const Product = require('../models/productsModel');
+const path = require('path');
 
 // Create product (Create)
 const createProduct = async (req, res) => {
@@ -17,11 +18,11 @@ const getProductsByCategory = async (req, res) => {
         const products = await Product.find({ category: category });
         
         const categoryData = {
-            cats: { title: 'חתולים', banner: 'cat-banner.jpg' },
-            dogs: { title: 'כלבים', banner: 'dog-banner.jpg' },
-            rodents: { title: 'מכרסמים', banner: 'rodent-banner.jpg' },
-            birds: { title: 'ציפורים', banner: 'bird-banner.jpg' },
-            fish: { title: 'דגים', banner: 'fish-banner.jpg' }
+            cats: { title: 'חתולים', banner: '/images/catban.jpg' },
+            dogs: { title: 'כלבים', banner: '/images/dogban.jpg' },
+            rodents: { title: 'מכרסמים', banner: '/images/rodentsban.jpg' },
+            birds: { title: 'ציפורים', banner: '/images/birdban.jpg' },
+            fish: { title: 'דגים', banner: '/images/fishban.jpg' }
         };
 
         if (categoryData[category]) {
@@ -87,3 +88,5 @@ module.exports = {
     updateProduct,
     deleteProduct
 };
+
+console.log('Image path:', path.join(__dirname, '..', 'public', 'images', 'catban.jpg'));
