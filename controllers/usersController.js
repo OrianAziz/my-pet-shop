@@ -27,18 +27,33 @@ const getUserById = async (req, res) => {
 //יצירת משתמש
 const createUser = async (req, res) => {
     try {
-        const { email, first_name, family_name, phone_number, password } = req.body;
+        const { email, first_name, family_name, password, address, billing_address } = req.body;
 
-        if (!email || !first_name || !family_name || !phone_number || !password) {
+        // בדיקת שדות הכרחיים
+        if (!email || !first_name || !family_name || !password) {
             return res.status(400).json({ message: 'חסר מידע הכרחי' });
         }
 
+        // בדיקת קיום משתמש לפי אימייל
         const findUser = await User.findOne({ email });
         if (findUser) {
             return res.status(409).json({ message: 'המשתמש כבר קיים' });
         }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await User.create(req.body);
+        // יצירת משתמש חדש עם האימייל בתור _id
+        const newUser = new User({
+            _id: email,          // הכנסת האימייל כשדה _id
+            first_name,          // שם פרטי
+            family_name,         // שם משפחה
+            password,            // סיסמה
+            address,             // כתובת
+            billing_address      // כתובת לחיוב
+        });
+
+        // שמירת המשתמש במסד הנתונים
+        await newUser.save();
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ message: 'שגיאה ביצירת המשתמש', error });

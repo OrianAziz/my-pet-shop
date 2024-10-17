@@ -1,7 +1,9 @@
 const express = require('express');
 const passport = require('passport');
-const User = require('../models/userModel'); // Adjust the path as needed
+const User = require('../models/userModel'); 
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
 
 // GET Login page
 router.get('/login', (req, res) => {
@@ -27,14 +29,39 @@ router.post('/signup', async (req, res) => {
   try {
     const { email, first_name, family_name, password } = req.body;
 
-    // Here you would hash the password before saving it (use bcrypt)
-    const newUser = new User({ _id: email, first_name, family_name, password });
+    // בדיקת קיום משתמש עם אותו אימייל
+    const findUser = await User.findOne({ _id: email });
+    if (findUser) {
+      return res.status(409).send('User with this email already exists');
+    }
+
+    // הצפנת הסיסמה לפני שמירה
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // יצירת משתמש חדש עם סיסמה מוצפנת
+    const newUser = new User({
+      _id: email,
+      first_name,
+      family_name,
+      password: hashedPassword // שמירת הסיסמה המוצפנת
+    });
+
+    // שמירת המשתמש במסד הנתונים
     await newUser.save();
 
-    res.redirect('/auth/login'); // Redirect to login after signup
+    // הפניה לדף התחברות לאחר רישום מוצלח
+    res.redirect('/auth/login');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
+  }
+});
+
+router.get('/dashboard', (req, res) => {
+  if (req.isAuthenticated()) { // בדיקה אם המשתמש מחובר
+    res.render('dashboard', { user: req.user }); // שליחת מידע המשתמש לתבנית
+  } else {
+    res.redirect('/login'); // אם לא מחובר, מפנה לדף התחברות
   }
 });
 
@@ -53,7 +80,7 @@ router.get('/facebook', passport.authenticate('facebook'));
 
 router.get('/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/dashboard',
+    successRedirect: '/',
     failureRedirect: '/auth/login'
   })
 );

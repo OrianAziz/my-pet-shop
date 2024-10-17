@@ -3,97 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
-  <style>
-    /* Fullscreen background */
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('/path-to-your-background-image.jpg') no-repeat center center fixed;
-      background-size: cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-    }
-
-    /* Container for the signup form */
-    .signup-container {
-      background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-    }
-
-    /* Form styles */
-    .signup-container h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .signup-container input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .signup-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .signup-container button:hover {
-      background-color: #45a049;
-    }
-
-    /* Sign in section */
-    .signin-section {
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    .signin-section a {
-      color: #007BFF;
-      text-decoration: none;
-    }
-
-    .signin-section a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <title>אזור אישי</title>
+  <link rel="stylesheet" href="/petshop.css">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-  <div class="signup-container">
-    <h2>Sign Up</h2>
+    <section id="header">
 
-    <!-- Sign up form -->
-    <form action="/signup" method="POST">
-      <input type="text" name="first_name" placeholder="First Name" required>
-      <input type="text" name="family_name" placeholder="Family Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-      <button type="submit">Sign Up</button>
-    </form>
+        <div>
+            <ul id="navbar">
+                <li><a href="cart.html"><img src="/images/bag.png"  width="20px"></a></li>
+                <li><a href="/auth/login" class="active">אזור אישי</a></li>
+                <li><a href="/products/reptiles">זוחלים</a></li>
+                <li><a href="/products/fish">דגים</a></li>
+                <li><a href="/products/birds">ציפורים</a></li>
+                <li><a href="/products/rodents">מכרסמים</a></li>
+                <li><a href="/products/dogs">כלבים</a></li>
+                <li><a href="/products/cats">חתולים</a></li>
+                <li><a href="/" >בית</a></li>
+            </ul>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="...חיפוש">
+            <button type="submit">🔍</button>
+        </div>
+        <a href="#"><img src="images/petlogo2.png" class="logo" alt="" width="75px"></a>
 
-    <!-- Sign in section -->
-    <div class="signin-section">
-      <p>Already have an account? <a href="/login">Log in here</a></p>
+
+    </section>
+    
+    <main>
+     <section class="sign-container">
+        <div class="signup-container"> 
+          <h2>SignUp</h2>
+          <form action="/auth/signup" method="POST">
+             <!-- שדות פרטים אישיים -->
+             <ul class="form-list">
+              <li class="signup-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="off">
+              </li>
+      
+              <li class="signup-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required autocomplete="on">
+              </li>
+      
+              <li class="signup-group">
+                <label for="family_name">Family Name:</label>
+                <input type="text" id="family_name" name="family_name" placeholder="Enter your family name" required autocomplete="on">
+              </li>
+      
+              <li class="signup-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+              </li>
+
+              <h3>Address:</h3>
+              <!-- שדות כתובת -->
+              <li class="signup-group">
+                <label for="address[country]">Country:</label>
+                <input type="text" id="country" name="address[country]" placeholder="Enter your country" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="address[street]">Street:</label>
+                <input type="text" id="street" name="address[street]" placeholder="Enter your street" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="address[city]">City:</label>
+                <input type="text" id="city" name="address[city]" placeholder="Enter your city" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="address[floor]">Floor:</label>
+                <input type="text" id="floor" name="address[floor]" placeholder="Enter your floor">
+              </li>
+      
+              <li class="signup-group">
+                <label for="address[appartement]">Appartement:</label>
+                <input type="text" id="appartement" name="address[appartement]" placeholder="Enter your appartement number">
+              </li>
+      
+              <li class="signup-group">
+                <label for="address[zip]">ZIP:</label>
+                <input type="text" id="zip" name="address[zip]" placeholder="Enter your ZIP code" required>
+              </li>
+      
+              <!-- שדות כתובת לחיוב -->
+              <h3>Billing Address:</h3>
+              <li class="signup-group">
+                <label for="billing_address[country]">Billing Country:</label>
+                <input type="text" id="billing_country" name="billing_address[country]" placeholder="Enter your billing country" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="billing_address[street]">Billing Street:</label>
+                <input type="text" id="billing_street" name="billing_address[street]" placeholder="Enter your billing street" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="billing_address[city]">Billing City:</label>
+                <input type="text" id="billing_city" name="billing_address[city]" placeholder="Enter your billing city" required>
+              </li>
+      
+              <li class="signup-group">
+                <label for="billing_address[zip]">Billing ZIP:</label>
+                <input type="text" name="billing_address[zip]" placeholder="Enter your billing ZIP code" required>
+              </li>
+      
+              <li class="signup-group">
+                <button type="submit" class="submit-btn">Signup</button>
+              </li>
+            </ul>
+          </form>
+          <p class="signup-info">Already have an account?  <a href="/auth/login">Login</a></p>
+        </div>     
+      </section>
+    </main>
+
+    <footer class="section-p1">
+        <div class="col">
+            <h4>כתובתנו</h4>
+            <p>בן גוריון 30 הרצליה</p>
+            <p>המקובלים 5 הרצליה</p>
+        </div>
+
+        <div class="col">
+            <h4>שעות פעילות</h4>
+            <p>ימים א'-ה': 8:00-21:00</p>
+            <p>יום ו' ושבת: סגור</p>
+
+        </div>
+
+        <div class="col">
+            <h4>צור קשר</h4>
+            <p>טלפון: 075-222-0100</p>
+            <p>פקס: 09-9560-101</p>
+            <p>דוא"ל: petshop@email.com</p>
+        </div>
+
+        <div class="col">
+            <h4>מידע שימושי</h4>
+            <a href="#">אודותינו</a>
+            <a href="#">תקנון</a>
+            <a href="#">מדיניות משלוחים</a>
+            <a href="#">הצהרת נגישות</a>
+            <a href="#">צור קשר</a>
+        </div>
+
+        <div class="col">
+            <h4>החשבון שלי</h4>
+            <a href="#">התחבר</a>
+            <a href="#">עגלת קניות</a>
+            <a href="#">מעקב אחרי משלוח</a>
+            <a href="#">עזרה</a>
+        </div>
+        
+        <div class="col">
+            <h4>עקבו אחרינו</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+            </div>
+        </div>   
+
+    </footer>
+
+    <div class="copyright">
+        <p>כל הזכויות שמורות - חנות חיות הרצליה @</p>
     </div>
-  </div>
 
+
+    
 </body>
 </html>
+
+

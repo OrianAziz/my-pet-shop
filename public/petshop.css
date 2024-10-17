@@ -362,8 +362,6 @@ footer a:hover{
     color: rgba(112, 117, 117, 0.8); /* צבע אפור עדין לטקסט */
 }
 
-
-
 .copyright p{
     font-size: 13px;
     margin: 0 0 8px 0;
@@ -385,3 +383,167 @@ footer a:hover{
     background-position: center;  
 
 }
+
+/* login page */
+main {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    min-height: 80vh; 
+    padding: 20px;
+}
+
+.login-container{
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+
+.login-container .form-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-container{
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group{
+    margin-bottom: 15px;
+}
+
+.form-group label{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input{
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #0e0e0e;
+    border-radius: 3px;
+}
+
+.submit-btn{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e59408;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover{
+    background-color: #e59408;
+}
+
+.login-container p{
+    margin-top: 15px;
+    color: #0b0b0b;
+    font-size: 15px;
+}
+
+/* signup page */
+
+.signup-container {
+    width: 70%;
+    margin: 0 auto; /* למרכז אופקית */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.sign-container {
+    width: 70%;
+    margin: 0 auto; /* למרכז אופקית */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.signup-container h2{
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* עיצוב לרשימת הטופס */
+.form-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* עיצוב כללי לשדה בטופס */
+.signup-group {
+    margin-bottom: 15px;
+}
+
+/* עיצוב תוויות (labels) */
+.signup-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* עיצוב שדות ההזנה (inputs) */
+.signup-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* עיצוב כפתור השליחה */
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* עיצוב קישור להרשמה */
+.sign-container .signup-container p a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.sign-container .signup-container p  {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.sign-container h3{
+    font-size: 25px;
+    line-height: 54px;
+    color: black;
+    font-family: 'MyFont', sans-serif;
+    text-decoration: underline;
+
+}
+
+.sign-container p a:hover {
+    text-decoration: underline;
+}
+
