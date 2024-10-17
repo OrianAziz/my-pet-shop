@@ -8,19 +8,14 @@ passport.use(new LocalStrategy({
   },
   async (email, password, done) => {
     try {
-      // חיפוש המשתמש לפי ה-_id (שהוא האימייל)
-      const user = await User.findById(email); // שימוש ב-findById כדי לחפש לפי _id
+      const user = await User.findById(email);
       if (!user) {
         return done(null, false, { message: 'Incorrect email.' });
       }
-
-      // בדיקת הסיסמה באמצעות הפונקציה validPassword
-      const isPasswordValid = await user.validPassword(password);
-      if (!isPasswordValid) {
+      if (user.password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
-
-      return done(null, user); // אם הכל תקין, המשתמש מחובר
+      return done(null, user);
     } catch (err) {
       return done(err);
     }

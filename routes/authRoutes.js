@@ -4,56 +4,61 @@ const User = require('../models/userModel');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10; 
+const authController = require('../controllers/authController');
 
 // GET Login page
-router.get('/login', (req, res) => {
-  res.render('login'); // Render the login page
-});
+router.get('/login', authController.loginPage);
 
 // POST Login
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/dashboard', // Redirect after successful login
-    failureRedirect: '/auth/login', // Redirect back to login page on failure
-    failureFlash: true // Enable flash messages
+  console.log('Login attempt:', req.body);
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      console.error('Authentication error:', err);
+      return next(err);
+    }
+    if (!user) {
+      console.log('Authentication failed:', info.message);
+      return res.redirect('/auth/login');
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error('Login error:', err);
+        return next(err);
+      }
+      console.log('User authenticated successfully:', user);
+      return res.redirect('/');
+    });
   })(req, res, next);
 });
 
 // GET Signup page
-router.get('/signup', (req, res) => {
-  res.render('signup'); // Render the signup page
-});
+router.get('/signup', authController.signupPage);
 
 // POST Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { email, first_name, family_name, password } = req.body;
-
-    // בדיקת קיום משתמש עם אותו אימייל
-    const findUser = await User.findOne({ _id: email });
-    if (findUser) {
-      return res.status(409).send('User with this email already exists');
+    const { email, password, first_name, family_name } = req.body;
+    
+    const existingUser = await User.findById(email);
+    if (existingUser) {
+      return res.status(400).send('User already exists');
     }
 
-    // הצפנת הסיסמה לפני שמירה
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // יצירת משתמש חדש עם סיסמה מוצפנת
     const newUser = new User({
       _id: email,
       first_name,
       family_name,
-      password: hashedPassword // שמירת הסיסמה המוצפנת
+      password // This will now be stored as a plain string
     });
 
-    // שמירת המשתמש במסד הנתונים
     await newUser.save();
+    console.log('New user created:', { ...newUser.toObject(), password: '[REDACTED]' });
 
-    // הפניה לדף התחברות לאחר רישום מוצלח
     res.redirect('/auth/login');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+  } catch (error) {
+    console.error('Error in signup:', error);
+    res.status(500).send('Error creating user');
   }
 });
 
@@ -89,6 +94,21 @@ router.get('/facebook/callback',
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/'); // Redirect to home after logout
+});
+
+router.get('/verify-password/:email/:password', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.email);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    
+    const isValid = await user.validPassword(req.params.password);
+    res.send(`Password valid: ${isValid}`);
+  } catch (error) {
+    console.error('Error verifying password:', error);
+    res.status(500).send('Error verifying password');
+  }
 });
 
 module.exports = router;

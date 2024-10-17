@@ -25,14 +25,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To handle form submissions
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'your-secret-key', // Replace with a more secure secret
-  resave: false,
-  saveUninitialized: true
-}));
-
-
-
 
 // הגדרת express-session
 app.use(session({
@@ -42,19 +34,19 @@ app.use(session({
   cookie: { secure: false } // אם השרת שלך משתמש ב-HTTPS, שנה ל-true
 }));
 
-// אתחול Passport והגדרת סשנים
-app.use(passport.initialize());
-app.use(passport.session());
+// Initialize flash middleware
 app.use(flash());
 
+// Initialize Passport after session middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Make flash messages available to all views
 app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
+  res.locals.messages = req.flash();
+  res.locals.user = req.user;
   next();
 });
-
-
 
 // Routes
 app.get('/dogs', homeController.dogsPage);
