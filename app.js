@@ -11,6 +11,7 @@ const homeController = require('./controllers/homeController');
 const authRoutes = require('./routes/authRoutes'); // Import the new auth routes
 const cartRoutes = require('./routes/cartRoutes'); // Import the cart routes
 const cartController = require('./controllers/cartController'); // Import the cart controller
+const orderRoutes = require('./routes/orderRoutes');
 
 // Add this line to import the mock authentication
 const mockAuth = require('./middleware/mockAuth');
@@ -58,6 +59,9 @@ app.use('/cart', mockAuth, cartRoutes);
 app.get('/get-cart-items', mockAuth, cartController.getCartItems);
 app.post('/cart/add', mockAuth, cartController.addItemToCart);
 app.post('/cart/remove', mockAuth, cartController.removeItemFromCart);
+
+// Use mockAuth for all order routes
+app.use('/order', mockAuth, orderRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

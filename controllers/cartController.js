@@ -15,29 +15,23 @@ exports.getCartItems = async (req, res) => {
     }
 
     const userId = req.user._id;
-    const cart = await Cart.findOne({ userId }).select('+items');
+    const cart = await Cart.findOne({ userId }).populate('items.product');
 
-    if (!cart || !cart.items || cart.items.length === 0) {
+    if (!cart || !cart.items) {
       return res.json([]);
     }
 
-    await cart.populate('items.product');
+    const cartItems = cart.items.map(item => ({
+      productId: item.product._id,
+      name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity
+    }));
 
-    const cartItems = cart.items.map(item => {
-      if (!item || !item.product) {
-        return null;
-      }
-      return {
-        productId: item.product._id,
-        name: item.product.name,
-        price: item.product.price,
-        quantity: item.quantity
-      };
-    }).filter(item => item !== null);
-
-    return res.json(cartItems);
+    res.json(cartItems);
   } catch (error) {
-    return res.status(500).json({ message: 'Server Error' });
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ message: 'Error fetching cart items' });
   }
 };
 

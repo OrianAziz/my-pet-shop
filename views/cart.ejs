@@ -119,6 +119,46 @@
     #order-button:hover {
       background-color: #0056b3;
     }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    #confirm-order, #cancel-order {
+      margin-top: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #confirm-order {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+    #cancel-order {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -151,7 +191,34 @@
     <div id="total-price">Total: $0.00</div> 
     <button id="order-button">Place Order</button>
   </div>
+  <!-- Add this modal HTML -->
+  <div id="order-modal" class="modal">
+    <div class="modal-content">
+      <h2>Confirm Order</h2>
+      <p id="order-summary"></p>
+      <button id="confirm-order">Yes, Place Order</button>
+      <button id="cancel-order">Cancel</button>
+    </div>
+  </div>
+
   <script>
+    let cartItems = [];
+
+    async function fetchCartItems() {
+      try {
+        const response = await fetch('/cart/get-cart-items');
+        if (!response.ok) {
+          throw new Error('Failed to fetch cart items');
+        }
+        cartItems = await response.json();
+        renderCart(cartItems);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    }
+
+    fetchCartItems();
+
     // Your JavaScript logic here
     function renderCart(items) {
       const cartItemsContainer = document.getElementById("cart-items");
@@ -204,13 +271,44 @@
       renderCart(); // Update cart display after API call
     }
     document.getElementById("order-button").addEventListener("click", () => {
-      console.log("Order placed");
+      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
+      document.getElementById("order-summary").textContent = 
+        `Are you sure you want to order ${totalItems} item(s) for $${totalPrice.toFixed(2)}?`;
+      
+      document.getElementById("order-modal").style.display = "block";
     });
-    fetch('/get-cart-items') 
-        .then(response => response.json())
-        .then(data => {
-          renderCart(data);
-        });
+
+    document.getElementById("confirm-order").addEventListener("click", () => {
+      fetch('/order/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.orderId) {
+          alert(`Order placed successfully! Your order ID is: ${data.orderId}`);
+          // Clear the cart display
+          document.getElementById("cart-items").innerHTML = "";
+          document.getElementById("total-price").textContent = "Total: $0.00";
+        } else {
+          alert('Error placing order: ' + data.message);
+        }
+        document.getElementById("order-modal").style.display = "none";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error placing order. Please try again.');
+        document.getElementById("order-modal").style.display = "none";
+      });
+    });
+
+    document.getElementById("cancel-order").addEventListener("click", () => {
+      document.getElementById("order-modal").style.display = "none";
+    });
     // Additional logic for adding items to the cart (you'll need to create a button/link for this)
     // ...
     // Logic for updating quantities using AJAX/fetch 
